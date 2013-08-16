@@ -1,0 +1,44 @@
+methods()
+enableHardwareAcceleration()
+onInitializeInterface()
+initialize()
+initViews()
+onConfigurationChanged(Configuration)
+onCreateInputMethodInterface()
+onCreateInputMethodSessionInterface()
+
+setterr
+	setTheme(int)
+	setBackDisposition(int)
+	
+
+
+
+getter
+	getBackDisposition()
+	getMaxWidth()
+	getCurrentInputBinding()
+	getCurrentInputConnection()
+	getCurrentInputStarted()
+	getCurrentInputEditorInfo()
+	getLayoutInflater()
+	getWindow()
+	
+
+public interface
+
+
+
+public method
+	updateFullscreenMode()
+
+
+onCreate()
+onDestroy()
+
+
+private call
+
+
+
+callback

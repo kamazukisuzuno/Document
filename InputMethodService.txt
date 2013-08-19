@@ -20,8 +20,6 @@ setCandidatesView(View)
 
 
 doStartInput(InputConnection,EditorInfo,boolean)
-requestShowSelf(int)
-handleBack(boolean)
 reportExtractedMovement(int,int)
 doMovementKey(int,KeyEvent,int)
 sendDownUpKeyEvents(int)
@@ -70,19 +68,28 @@ public method
 	updateInputViewShown()
 		usage in showWindowInner
 
-
-private method	
-	showWindowInner(boolean) // parameter works when mShowInputRequested==false,mInputStarted==true, then set doShowInput and mShowInputRequested to true
-		usage in showWindow(showInput)
-	startExtractingText(boolean)
-		usage in doStartInput , setExtractView , showWindowInner , updateFullscreenMode	
+private method
+	finishViews()
+		call onFinishInputView{false},onFinishCandidatesView{false}
 	doHideWindow()
 		call hideWindow
 		usage in handleBack ,onConfigurationChanged, setCandidatesViewShown , InputMethodImpl.hideSoftInput
+	requestShowSelf(int)
+		call InputMethodManager::showSoftInputFromInputMethod
+		usage in onToggleSoftInput
+	handleBack(boolean)
+		usage in onKeyDown,onKeyUp
+	onToggleSoftInput(int,int)
+		call requestHideSelf/requestShowSelf{depend on isInputViewShown()}
+		usage in toggleSoftInput
+
+friendly method	
+	showWindowInner(boolean) // parameter works when mShowInputRequested==false,mInputStarted==true, then set doShowInput and mShowInputRequested to true
+		usage in showWindow(showInput)
+	startExtractingText(boolean)
+		usage in doStartInput , setExtractView , showWindowInner , updateFullscreenMode
 	initViews()
 		//initalize views
-	finishViews()
-		call onFinishInputView{false},onFinishCandidatesView{false}
 	doFinishInput()
 		call onFinishInputView{true},onFinishCandidatesView{true},onFinishInput
 	initialize()
@@ -142,7 +149,6 @@ onCall
 	onTrackballEvent(MotionEvent)
 	onGenericMotionEvent(MotionEvent)
 	onAppPrivateCommand(String,Bundle)
-	onToggleSoftInput(int,int)
 	onCreateExtractTextView()
 	onCreateCandidatesView()
 

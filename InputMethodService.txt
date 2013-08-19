@@ -1,0 +1,173 @@
+enableHardwareAcceleration()
+	//should be run before onCreate ,better in constructor
+onComputeInsets(Insets)
+
+ViewGroup mFullscreenArea
+FrameLayout mExtractFrame
+FrameLayout mCandidatesFrame
+FrameLayout mInputFrame
+
+isShowInputRequested()
+isInputViewShown()
+setCandidatesViewShown(boolean)
+getCandidatesHiddenVisibility()
+showStatusIcon(int)
+hideStatusIcon()
+switchInputMethod(String)
+setExtractView(View)
+setCandidatesView(View)
+
+
+
+doStartInput(InputConnection,EditorInfo,boolean)
+requestShowSelf(int)
+handleBack(boolean)
+reportExtractedMovement(int,int)
+doMovementKey(int,KeyEvent,int)
+sendDownUpKeyEvents(int)
+sendDefaultEditorAction(boolean)
+sendKeyChar(char)
+dump(FileDescriptor,PrintWriter,String[])
+
+setter
+	setTheme(int)
+	setBackDisposition(int)
+	setExtractViewShown(boolean)
+	setInputView(View)
+		usage in updateInputViewShown() // view is generate by onCreateInputView
+
+
+
+getter
+	getBackDisposition()
+	getMaxWidth()
+	getLayoutInflater()
+	getWindow()
+	getCurrentInputBinding()
+	getCurrentInputConnection()
+	getCurrentInputStarted()
+	getCurrentInputEditorInfo()
+	getTextForImeAction(int)
+
+public service interface
+	onCreate()
+	onDestroy()
+
+public input method interface
+
+
+public method
+	isFullscreenMode()
+		usage in SoftKeyboard::onStartInput, mCompletionOn is set to the return value
+	updateFullscreenMode() //will determine whether fullscreen mode should be shown
+		usage in showWindowInner
+	showWindow(boolean)  
+		usage in onConfigurationChanged{true/false}, setCandidatesViewShown{false} , InputMethodImpl::showSoftInput{true}
+	requestHideSelf(int)
+		call InputMethodManager::hideSoftInputFromInputMethod
+	hideWindow()
+		call onWindowHidden(),finishViews , mWindow.hide
+	updateInputViewShown()
+		usage in showWindowInner
+
+
+private method	
+	showWindowInner(boolean) // parameter works when mShowInputRequested==false,mInputStarted==true, then set doShowInput and mShowInputRequested to true
+		usage in showWindow(showInput)
+	startExtractingText(boolean)
+		usage in doStartInput , setExtractView , showWindowInner , updateFullscreenMode	
+	doHideWindow()
+		call hideWindow
+		usage in handleBack ,onConfigurationChanged, setCandidatesViewShown , InputMethodImpl.hideSoftInput
+	initViews()
+		//initalize views
+	finishViews()
+		call onFinishInputView{false},onFinishCandidatesView{false}
+	doFinishInput()
+		call onFinishInputView{true},onFinishCandidatesView{true},onFinishInput
+	initialize()
+		//set mInitialized to true,and call onInitializeInterface
+		call onInitializeInterface
+		usage in doStartInput,showWindowInner,updateFullscreenMode,updateInputViewShown
+	updateExtractFrameVisibility()
+		usage in setExtractViewShown,updateFullscreenMode
+	updateCandidatesVisibility(boolean)
+		//set mCandidatesFrame visibility
+		usage in setCandidatesViewShown,updateExtractFrameVisibility
+
+onCall
+	onExtractingInputChanged(EditorInfo)
+		usage in startExtractingText
+	onWindowHidden()
+		//empty	
+	onExtractedTextClicked()
+	onExtractedCursorMovement(int,int)
+	onExtractTextContextMenuItem(int)
+	onUpdateExtractingVisibility(EditorInfo)
+	onUpdateExtractingViews(EditorInfo)
+	onCurrentInputMethodSubtypeChanged(InputMethodSubtype)
+	onDisplayCompletions(CompletionInfo[])
+	onUpdateExtractedText(int,ExtractedText)
+	onUpdateSelection(int,int,int,int,int)
+	onViewClicked(boolean)
+	onUpdateCursor(Rect)
+	onWindowShown()
+		usage in showWindowInner
+	onBindInput()
+	onUnbindInput()
+
+	onCreateInputView()
+		//return inputView,basic return null
+	onStartInputView(EditorInfo,boolean)
+		//empty
+		usage in doStartInput,showWindowInner
+
+	onStartInput(EditorInfo,boolean)
+		usage in doStartInput
+	onFinishInput()
+		call getCurrentInputConnection().finishComposingText();
+	onFinishInputView(boolean)
+		call getCurrentInputConnection().finishComposingText();
+
+	onEvaluateInputViewShown()
+		//override this to control when the soft input area should be shown to the user.
+		//return ture when no hard keyboard
+		usage in onConfigurationChanged, onShowInputRequested, updateInputViewShown,InputMethodImpl.showSoftInput
+	onEvaluateFullscreenMode()
+	onInitializeInterface()
+	onConfigurationChanged(Configuration)
+	onCreateInputMethodInterface()
+	onCreateInputMethodSessionInterface()
+	onConfigureWindow(Window,boolean, boolean) 
+	onTrackballEvent(MotionEvent)
+	onGenericMotionEvent(MotionEvent)
+	onAppPrivateCommand(String,Bundle)
+	onToggleSoftInput(int,int)
+	onCreateExtractTextView()
+	onCreateCandidatesView()
+
+
+
+	onStartCandidatesView(EditorInfo,boolean)
+	onFinishCandidatesView(boolean)
+	onShowInputRequested(int,boolean)
+
+outter onCall
+	onExtractedSelectionChanged(int,int)
+
+KeyEvent callback
+
+	onKeyDown(int,KeyEvent)
+	onKeyUp(int,KeyEvent)
+	onKeyLongPress(int,KeyEvent)
+	onKeyMultiple(int,int,KeyEvent)
+
+@hide
+	onExtractedDeleteText(int,int)
+	onExtractedReplaceText(int,int,CharSequence)
+	onExtractedSetSpan(Object,int,int,int)
+
+Impl
+
+value write
+	mInputConnection@InputMethodImpl::bindInput,unbindInput

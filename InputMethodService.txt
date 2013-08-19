@@ -7,9 +7,9 @@ FrameLayout mExtractFrame
 FrameLayout mCandidatesFrame
 FrameLayout mInputFrame
 
-isShowInputRequested()
-isInputViewShown()
-setCandidatesViewShown(boolean)
+
+
+
 getCandidatesHiddenVisibility()
 showStatusIcon(int)
 hideStatusIcon()
@@ -19,9 +19,9 @@ setCandidatesView(View)
 
 
 
-doStartInput(InputConnection,EditorInfo,boolean)
-requestShowSelf(int)
-handleBack(boolean)
+
+
+
 reportExtractedMovement(int,int)
 doMovementKey(int,KeyEvent,int)
 sendDownUpKeyEvents(int)
@@ -49,6 +49,15 @@ getter
 	getCurrentInputEditorInfo()
 	getTextForImeAction(int)
 
+statement
+	isShowInputRequested()
+		return mShowInputRequested
+		no usage
+	isInputViewShown()
+		return mIsInputViewShown && mWindowVisible
+		usage in doMovementKey, onToggleSoftInput, InputMethodImpl::hideSoftInput,showSoftInput
+
+
 public service interface
 	onCreate()
 	onDestroy()
@@ -69,20 +78,28 @@ public method
 		call onWindowHidden(),finishViews , mWindow.hide
 	updateInputViewShown()
 		usage in showWindowInner
+	setCandidatesViewShown(boolean)
 
 
-private method	
+private method
+	finishViews()
+		call onFinishInputView{false},onFinishCandidatesView{false}	
+	doHideWindow()
+		call hideWindow
+		usage in handleBack ,onConfigurationChanged, setCandidatesViewShown , InputMethodImpl.hideSoftInput
+	requestShowSelf(int)
+		call InputMethodManager::showSoftInputFromInputMethod
+	handleBack(boolean)
+		
+
+
+friendly method	
 	showWindowInner(boolean) // parameter works when mShowInputRequested==false,mInputStarted==true, then set doShowInput and mShowInputRequested to true
 		usage in showWindow(showInput)
 	startExtractingText(boolean)
 		usage in doStartInput , setExtractView , showWindowInner , updateFullscreenMode	
-	doHideWindow()
-		call hideWindow
-		usage in handleBack ,onConfigurationChanged, setCandidatesViewShown , InputMethodImpl.hideSoftInput
 	initViews()
 		//initalize views
-	finishViews()
-		call onFinishInputView{false},onFinishCandidatesView{false}
 	doFinishInput()
 		call onFinishInputView{true},onFinishCandidatesView{true},onFinishInput
 	initialize()
@@ -94,6 +111,9 @@ private method
 	updateCandidatesVisibility(boolean)
 		//set mCandidatesFrame visibility
 		usage in setCandidatesViewShown,updateExtractFrameVisibility
+	doStartInput(InputConnection,EditorInfo,boolean)
+		call doFinishInput{if !restarting},initialize,onStartInput,onStartInputView,startExtractingText,onStartCandidatesView
+		usage in onConfigurationChanged,restartInput,startInput
 
 onCall
 	onExtractingInputChanged(EditorInfo)

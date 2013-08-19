@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 enableHardwareAcceleration()
 	//should be run before onCreate ,better in constructor
 onComputeInsets(Insets)
@@ -8,44 +7,21 @@ FrameLayout mExtractFrame
 FrameLayout mCandidatesFrame
 FrameLayout mInputFrame
 
-
-
-
-=======
-methods()
-enableHardwareAcceleration()
-onInitializeInterface()
-initialize()
-initViews()
-onConfigurationChanged(Configuration)
-onCreateInputMethodInterface()
-onCreateInputMethodSessionInterface()
-onConfigureWindow(Window,boolean, boolean) 
-isFullscreenMode()
-onEvaluateFullscreenMode()
-setExtractViewShown(boolean)
-updateExtractFrameVisibility()
-onComputeInsets(Insets)
-updateInputViewShown()
 isShowInputRequested()
 isInputViewShown()
-onEvaluateInputViewShown()
 setCandidatesViewShown(boolean)
-updateCandidatesVisibility(boolean)
->>>>>>> 455621a20795fa417242720cf2c46f54397bda43
 getCandidatesHiddenVisibility()
 showStatusIcon(int)
 hideStatusIcon()
 switchInputMethod(String)
 setExtractView(View)
 setCandidatesView(View)
-<<<<<<< HEAD
 
 
 
-
-
-
+doStartInput(InputConnection,EditorInfo,boolean)
+requestShowSelf(int)
+handleBack(boolean)
 reportExtractedMovement(int,int)
 doMovementKey(int,KeyEvent,int)
 sendDownUpKeyEvents(int)
@@ -59,53 +35,6 @@ setter
 	setExtractViewShown(boolean)
 	setInputView(View)
 		usage in updateInputViewShown() // view is generate by onCreateInputView
-=======
-setInputView(View)
-onCreateExtractTextView()
-onCreateCandidatesView()
-onCreateInputView()
-onStartInputView(EditorInfo,boolean)
-onFinishInputView(boolean)
-onStartCandidatesView(EditorInfo,boolean)
-onFinishCandidatesView(boolean)
-onShowInputRequested(int,boolean)
-showWindow(boolean)
-showWindowInner(boolean)
-finishViews()
-doHideWindow()
-hideWindow()
-onWindowShown()
-onWindowHidden()
-onBindInput()
-onUnbindInput()
-onStartInput(EditorInfo,boolean)
-doFinishInput()
-doStartInput(InputConnection,EditorInfo,boolean)
-onFinishInput()
-onDisplayCompletions(CompletionInfo[])
-onUpdateExtractedText(int,ExtractedText)
-onUpdateSelection(int,int,int,int,int)
-onViewClicked(boolean)
-onUpdateCursor(Rect)
-requestHideSelf(int)
-requestShowSelf(int)
-handleBack(boolean)
-onKeyDown(int,KeyEvent)
-onKeyLongPress(int,KeyEvent)
-onKeyMultiple(int,int,KeyEvent)
-onKeyUp(int,KeyEvent)
-onTrackballEvent(MotionEvent)
-onGenericMotionEvent(MotionEvent)
-onAppPrivateCommand(String,Bundle)
-onToggleSoftInput(int,int)
-reportExtractedMovement(int,int)
-doMovementKey(int,KeyEvent,int)
-
-setterr
-	setTheme(int)
-	setBackDisposition(int)
-	
->>>>>>> 455621a20795fa417242720cf2c46f54397bda43
 
 
 
@@ -118,17 +47,7 @@ getter
 	getCurrentInputConnection()
 	getCurrentInputStarted()
 	getCurrentInputEditorInfo()
-<<<<<<< HEAD
 	getTextForImeAction(int)
-
-statement
-	isShowInputRequested()
-		return mShowInputRequested
-		no usage
-	isInputViewShown()
-		return mIsInputViewShown && mWindowVisible
-		usage in doMovementKey, onToggleSoftInput, InputMethodImpl::hideSoftInput,showSoftInput
-
 
 public service interface
 	onCreate()
@@ -150,28 +69,20 @@ public method
 		call onWindowHidden(),finishViews , mWindow.hide
 	updateInputViewShown()
 		usage in showWindowInner
-	setCandidatesViewShown(boolean)
 
 
-private method
-	finishViews()
-		call onFinishInputView{false},onFinishCandidatesView{false}	
-	doHideWindow()
-		call hideWindow
-		usage in handleBack ,onConfigurationChanged, setCandidatesViewShown , InputMethodImpl.hideSoftInput
-	requestShowSelf(int)
-		call InputMethodManager::showSoftInputFromInputMethod
-	handleBack(boolean)
-		
-
-
-friendly method	
+private method	
 	showWindowInner(boolean) // parameter works when mShowInputRequested==false,mInputStarted==true, then set doShowInput and mShowInputRequested to true
 		usage in showWindow(showInput)
 	startExtractingText(boolean)
 		usage in doStartInput , setExtractView , showWindowInner , updateFullscreenMode	
+	doHideWindow()
+		call hideWindow
+		usage in handleBack ,onConfigurationChanged, setCandidatesViewShown , InputMethodImpl.hideSoftInput
 	initViews()
 		//initalize views
+	finishViews()
+		call onFinishInputView{false},onFinishCandidatesView{false}
 	doFinishInput()
 		call onFinishInputView{true},onFinishCandidatesView{true},onFinishInput
 	initialize()
@@ -183,9 +94,6 @@ friendly method
 	updateCandidatesVisibility(boolean)
 		//set mCandidatesFrame visibility
 		usage in setCandidatesViewShown,updateExtractFrameVisibility
-	doStartInput(InputConnection,EditorInfo,boolean)
-		call doFinishInput{if !restarting},initialize,onStartInput,onStartInputView,startExtractingText,onStartCandidatesView
-		usage in onConfigurationChanged,restartInput,startInput
 
 onCall
 	onExtractingInputChanged(EditorInfo)
@@ -263,24 +171,3 @@ Impl
 
 value write
 	mInputConnection@InputMethodImpl::bindInput,unbindInput
-=======
-	
-
-public interface
-
-
-
-public method
-	updateFullscreenMode()
-
-
-onCreate()
-onDestroy()
-
-
-private call
-
-
-
-callback
->>>>>>> 455621a20795fa417242720cf2c46f54397bda43

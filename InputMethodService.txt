@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 enableHardwareAcceleration()
 	//should be run before onCreate ,better in constructor
 onComputeInsets(Insets)
@@ -10,12 +11,35 @@ FrameLayout mInputFrame
 
 
 
+=======
+methods()
+enableHardwareAcceleration()
+onInitializeInterface()
+initialize()
+initViews()
+onConfigurationChanged(Configuration)
+onCreateInputMethodInterface()
+onCreateInputMethodSessionInterface()
+onConfigureWindow(Window,boolean, boolean) 
+isFullscreenMode()
+onEvaluateFullscreenMode()
+setExtractViewShown(boolean)
+updateExtractFrameVisibility()
+onComputeInsets(Insets)
+updateInputViewShown()
+isShowInputRequested()
+isInputViewShown()
+onEvaluateInputViewShown()
+setCandidatesViewShown(boolean)
+updateCandidatesVisibility(boolean)
+>>>>>>> 455621a20795fa417242720cf2c46f54397bda43
 getCandidatesHiddenVisibility()
 showStatusIcon(int)
 hideStatusIcon()
 switchInputMethod(String)
 setExtractView(View)
 setCandidatesView(View)
+<<<<<<< HEAD
 
 
 
@@ -35,6 +59,53 @@ setter
 	setExtractViewShown(boolean)
 	setInputView(View)
 		usage in updateInputViewShown() // view is generate by onCreateInputView
+=======
+setInputView(View)
+onCreateExtractTextView()
+onCreateCandidatesView()
+onCreateInputView()
+onStartInputView(EditorInfo,boolean)
+onFinishInputView(boolean)
+onStartCandidatesView(EditorInfo,boolean)
+onFinishCandidatesView(boolean)
+onShowInputRequested(int,boolean)
+showWindow(boolean)
+showWindowInner(boolean)
+finishViews()
+doHideWindow()
+hideWindow()
+onWindowShown()
+onWindowHidden()
+onBindInput()
+onUnbindInput()
+onStartInput(EditorInfo,boolean)
+doFinishInput()
+doStartInput(InputConnection,EditorInfo,boolean)
+onFinishInput()
+onDisplayCompletions(CompletionInfo[])
+onUpdateExtractedText(int,ExtractedText)
+onUpdateSelection(int,int,int,int,int)
+onViewClicked(boolean)
+onUpdateCursor(Rect)
+requestHideSelf(int)
+requestShowSelf(int)
+handleBack(boolean)
+onKeyDown(int,KeyEvent)
+onKeyLongPress(int,KeyEvent)
+onKeyMultiple(int,int,KeyEvent)
+onKeyUp(int,KeyEvent)
+onTrackballEvent(MotionEvent)
+onGenericMotionEvent(MotionEvent)
+onAppPrivateCommand(String,Bundle)
+onToggleSoftInput(int,int)
+reportExtractedMovement(int,int)
+doMovementKey(int,KeyEvent,int)
+
+setterr
+	setTheme(int)
+	setBackDisposition(int)
+	
+>>>>>>> 455621a20795fa417242720cf2c46f54397bda43
 
 
 
@@ -47,6 +118,7 @@ getter
 	getCurrentInputConnection()
 	getCurrentInputStarted()
 	getCurrentInputEditorInfo()
+<<<<<<< HEAD
 	getTextForImeAction(int)
 
 statement
@@ -191,3 +263,24 @@ Impl
 
 value write
 	mInputConnection@InputMethodImpl::bindInput,unbindInput
+=======
+	
+
+public interface
+
+
+
+public method
+	updateFullscreenMode()
+
+
+onCreate()
+onDestroy()
+
+
+private call
+
+
+
+callback
+>>>>>>> 455621a20795fa417242720cf2c46f54397bda43

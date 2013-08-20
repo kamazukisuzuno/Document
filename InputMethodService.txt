@@ -1,3 +1,7 @@
+InputMethodImpl is created at onBind(),by onCreateInputMethodInterface
+InputMethodSession is created in InputMethodImpl by createSession through SessionCallback and onCreateInputMethodSessionInterface
+
+
 enableHardwareAcceleration()
 	//should be run before onCreate ,better in constructor
 onComputeInsets(Insets)
@@ -7,24 +11,9 @@ FrameLayout mExtractFrame
 FrameLayout mCandidatesFrame
 FrameLayout mInputFrame
 
-isShowInputRequested()
-isInputViewShown()
-setCandidatesViewShown(boolean)
-getCandidatesHiddenVisibility()
-showStatusIcon(int)
-hideStatusIcon()
-switchInputMethod(String)
-setExtractView(View)
-setCandidatesView(View)
+mRootView = inflater(com.android.internal.R.layout.input_method)
+mToken = 
 
-
-
-doStartInput(InputConnection,EditorInfo,boolean)
-reportExtractedMovement(int,int)
-doMovementKey(int,KeyEvent,int)
-sendDownUpKeyEvents(int)
-sendDefaultEditorAction(boolean)
-sendKeyChar(char)
 dump(FileDescriptor,PrintWriter,String[])
 
 setter
@@ -33,7 +22,8 @@ setter
 	setExtractViewShown(boolean)
 	setInputView(View)
 		usage in updateInputViewShown() // view is generate by onCreateInputView
-
+	setExtractView(View)
+	setCandidatesView(View)
 
 
 getter
@@ -47,11 +37,26 @@ getter
 	getCurrentInputEditorInfo()
 	getTextForImeAction(int)
 
+status
+	isShowInputRequested()
+		return mShowInputRequested
+	isInputViewShown()
+		return mIsInputViewShown && mWindowVisible
+		usage in SoftKeyboard::handleCharacter
+	getCandidatesHiddenVisibility()
+		return isExtractViewShown() ? View.GONE : View.INVISIBLE;
+	isExtractViewShown()
+		return mIsFullscreen && !mExtractViewHidden;
+
 public service interface
 	onCreate()
 	onDestroy()
 
 public input method interface
+	onCreateInputMethodInterface()
+		//return InputMethodImpl
+		usage in onBind()
+	onCreateInputMethodSessionInterface()
 
 
 public method
@@ -67,6 +72,22 @@ public method
 		call onWindowHidden(),finishViews , mWindow.hide
 	updateInputViewShown()
 		usage in showWindowInner
+	sendDownUpKeyEvents(int)
+		//send direct keyevent to inputconnection,including enter,number
+		usage in sendKeyChar
+	sendDefaultEditorAction(boolean)
+		//if false will execute regardless of default action of editor
+		call InputConnection::performEditorAction
+	sendKeyChar(char)
+		//send single utf16 character code to input connection
+	setCandidatesViewShown(boolean)
+		call updateCandidatesVisibility,showWindow/doHideWindow
+	showStatusIcon(int)
+		call InputMethodManager::showStatusIcon
+	hideStatusIcon()
+		call InputMethodManager::hideStatusIcon
+	switchInputMethod(String)
+		call InputMethodManager::setInputMethod{mToken,id}
 
 private method
 	finishViews()
@@ -84,6 +105,9 @@ private method
 		usage in toggleSoftInput
 
 friendly method	
+	doStartInput(InputConnection,EditorInfo,boolean)
+		call doFinishInput{if !restarting},onStartInput,onStartInputView,StartExtractingText,onStartCandidatesView
+		usage in onConfigurationChanged,InputMethodImpl::restartInput,startInput
 	showWindowInner(boolean) // parameter works when mShowInputRequested==false,mInputStarted==true, then set doShowInput and mShowInputRequested to true
 		usage in showWindow(showInput)
 	startExtractingText(boolean)
@@ -101,6 +125,10 @@ friendly method
 	updateCandidatesVisibility(boolean)
 		//set mCandidatesFrame visibility
 		usage in setCandidatesViewShown,updateExtractFrameVisibility
+	reportExtractedMovement(int,int)
+		usage in doMovementKey
+	doMovementKey(int,KeyEvent,int) //deal with arrow key
+		usage in onKeyDown,onKeyMultiple,onKeyUp
 
 onCall
 	onExtractingInputChanged(EditorInfo)
@@ -143,8 +171,6 @@ onCall
 	onEvaluateFullscreenMode()
 	onInitializeInterface()
 	onConfigurationChanged(Configuration)
-	onCreateInputMethodInterface()
-	onCreateInputMethodSessionInterface()
 	onConfigureWindow(Window,boolean, boolean) 
 	onTrackballEvent(MotionEvent)
 	onGenericMotionEvent(MotionEvent)
